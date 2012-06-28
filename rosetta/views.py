@@ -381,3 +381,4 @@ def can_translate(user):
         return False
     elif user.is_staff:
         return True
+    return False
