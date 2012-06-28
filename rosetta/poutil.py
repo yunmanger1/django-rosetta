@@ -53,7 +53,6 @@ def find_pos(lang, project_apps=True, django_apps=False, third_party_apps=False)
             app = __import__(appname, {}, {}, [])
 
         apppath = os.path.normpath(os.path.abspath(os.path.join(os.path.dirname(app.__file__), 'locale')))
-        
 
         # django apps
         if 'contrib' in apppath and 'django' in apppath and not django_apps:
@@ -62,27 +61,22 @@ def find_pos(lang, project_apps=True, django_apps=False, third_party_apps=False)
         # third party external
         if not third_party_apps and abs_project_path not in apppath:
             continue
-            
+
         # local apps
         if not project_apps and abs_project_path in apppath:
             continue
-            
-        
         if os.path.isdir(apppath):
             paths.append(apppath)
-            
-            
-        
-            
+
     ret = set()
     langs = (lang,)
     if u'-' in lang:
-        _l,_c =  map(lambda x:x.lower(),lang.split(u'-'))
-        langs += (u'%s_%s' %(_l, _c), u'%s_%s' %(_l, _c.upper()), )
+        _l, _c = map(lambda x: x.lower(), lang.split(u'-'))
+        langs += (u'%s_%s' % (_l, _c), u'%s_%s' % (_l, _c.upper()), )
     elif u'_' in lang:
-        _l,_c = map(lambda x:x.lower(),lang.split(u'_'))
-        langs += (u'%s-%s' %(_l, _c), u'%s-%s' %(_l, _c.upper()), )
-        
+        _l, _c = map(lambda x: x.lower(), lang.split(u'_'))
+        langs += (u'%s-%s' % (_l, _c), u'%s-%s' % (_l, _c.upper()), )
+
     paths = map(os.path.normpath, paths)
     for path in paths:
         for lang_ in langs:

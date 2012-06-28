@@ -379,13 +379,5 @@ def can_translate(user):
         return True
     if not user.is_authenticated():
         return False
-    elif user.is_superuser and user.is_staff:
+    elif user.is_staff:
         return True
-    else:
-        try:
-            from django.contrib.auth.models import Group
-            translators = Group.objects.get(name='translators')
-            return translators in user.groups.all()
-        except Group.DoesNotExist:
-            return False
-
